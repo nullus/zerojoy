@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 from contextlib import contextmanager
+from datetime import datetime
+from logging import getLogger, basicConfig, INFO
 from random import randrange, choice
 from time import sleep
 
-
 NULL = chr(0x0)
-
 
 SWEARS = [
     "cunt",
@@ -24,7 +24,6 @@ SWEARS = [
     "wanker",
     "dick",
 ]
-
 
 ASCII_TO_HID = {
     'a': chr(0x4),
@@ -64,7 +63,6 @@ class HidKeyboard(object):
         self.device.write((modifier + NULL + key + NULL * 5).encode())
         self.device.write((NULL * 8).encode())
         self.device.flush()
-        sleep(0.001)
 
 
 @contextmanager
@@ -74,14 +72,20 @@ def hid(device_name):
 
 
 def main():
+    log = getLogger(__name__)
+    basicConfig(level=INFO)
     with hid("/dev/hidg0") as device:
         while True:
             sleep(randrange(3, 7))
+            start_t = datetime.now()
             swear = choice(SWEARS)
             device.press_key(chr(0x25), chr(32))
             for h in map(ascii_to_hid, swear):
                 device.press_key(h)
             device.press_key(chr(0x25), chr(32))
+            end_t = datetime.now()
+            log.info("Said %s, took %sms, %d reports", swear, (end_t - start_t).microseconds,
+                     2 * (len(swear) + 2))
 
 
 if __name__ == "__main__":
