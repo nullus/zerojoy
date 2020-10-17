@@ -35,9 +35,9 @@ Undo all of the above, it interferes with configuring USB gadget.
 
 Create device using libcomposite:
 
-    tar -C /sys/kernel/config/usb_gadget/ -xf zerojoy.tar --overwrite --no-same-owner
-    sudo ln -s /sys/kernel/config/usb_gadget/functions/hid.usb0 /sys/kernel/config/usb_gadget/configs/c.1/
-    ls /sys/class/udc | sudo tee /sys/kernel/config/usb_gadget/UDC
+    sudo tar -C /sys/kernel/config/usb_gadget/ -xf zerojoy.tar --overwrite --no-same-owner
+    sudo ln -s /sys/kernel/config/usb_gadget/zerojoy/functions/hid.usb0 /sys/kernel/config/usb_gadget/zerojoy/configs/c.1/
+    ls /sys/class/udc | sudo tee /sys/kernel/config/usb_gadget/zerojoy/UDC
 
 ### References
 
