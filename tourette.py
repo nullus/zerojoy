@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
-from contextlib import contextmanager
 from datetime import datetime
 from logging import getLogger, basicConfig, INFO
 from random import randrange, choice
 from time import sleep
+
+from hid import HidDevice, hid
 
 NULL = chr(0x0)
 
@@ -53,28 +54,17 @@ def ascii_to_hid(x):
     return ASCII_TO_HID[x]
 
 
-class HidKeyboard(object):
-
-    def __init__(self, device) -> None:
-        super().__init__()
-        self.device = device
-
+class HidKeyboard(HidDevice):
     def press_key(self, key, modifier=NULL) -> None:
         self.device.write((modifier + NULL + key + NULL * 5).encode())
         self.device.write((NULL * 8).encode())
         self.device.flush()
 
 
-@contextmanager
-def hid(device_name):
-    with open(device_name, 'rb+') as device:
-        yield HidKeyboard(device)
-
-
 def main():
     log = getLogger(__name__)
     basicConfig(level=INFO)
-    with hid("/dev/hidg0") as device:
+    with hid("/dev/hidg0", HidKeyboard) as device:
         while True:
             sleep(randrange(3, 7))
             start_t = datetime.now()
