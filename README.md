@@ -43,3 +43,4 @@ Create device using libcomposite:
 
 * [Setup for OTG Serial Gadget](https://raspberrypi.stackexchange.com/a/75551)
 * [Turn Your Raspberry Pi Zero into a USB Keyboard (HID)](https://randomnerdtutorials.com/raspberry-pi-zero-usb-keyboard-hid/) — uses libcomposite for quick device configuration
+* [pid.codes is a registry of USB PID codes for open source hardware projects](https://pid.codes/)
