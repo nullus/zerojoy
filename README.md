@@ -31,7 +31,7 @@ Mount SD card root, and symlink getty service to start on boot:
 
 ### Prototype
 
-Undo all of the above, it interferes with configuring USB gadget.
+Undo _most_ of the above, it interferes with configuring USB gadget. Keep `/boot/config.txt` changes
 
 Create device using libcomposite:
 
@@ -39,8 +39,16 @@ Create device using libcomposite:
     sudo ln -s /sys/kernel/config/usb_gadget/zerojoy/functions/hid.usb0 /sys/kernel/config/usb_gadget/zerojoy/configs/c.1/
     ls /sys/class/udc | sudo tee /sys/kernel/config/usb_gadget/zerojoy/UDC
 
+### To do/Next steps
+
+  * Build a controller for old PC 15-pin joystick, throttle, and rudder devices (e.g. CH Products)
+    * ADC for Raspberry Pi Zero: [RasPiO Analog Zero](https://raspberry.piaustralia.com.au/collections/shields-and-add-ons/products/raspio-analog-zero)
+    * Old CH Products: [eBay search](https://www.ebay.com.au/sch/i.html?_nkw=CH+Products&_sacat=1249)
+  * Integrate Wacom Intuos Pro via Bluetooth (via HIDRAW)
+
 ### References
 
-* [Setup for OTG Serial Gadget](https://raspberrypi.stackexchange.com/a/75551)
-* [Turn Your Raspberry Pi Zero into a USB Keyboard (HID)](https://randomnerdtutorials.com/raspberry-pi-zero-usb-keyboard-hid/) — uses libcomposite for quick device configuration
-* [pid.codes is a registry of USB PID codes for open source hardware projects](https://pid.codes/)
+  * [Setup for OTG Serial Gadget](https://raspberrypi.stackexchange.com/a/75551)
+  * [Turn Your Raspberry Pi Zero into a USB Keyboard (HID)](https://randomnerdtutorials.com/raspberry-pi-zero-usb-keyboard-hid/) — uses libcomposite for quick device configuration
+  * [pid.codes is a registry of USB PID codes for open source hardware projects](https://pid.codes/)
+  * [HIDRAW - Raw Access to USB and Bluetooth Human Interface Devices](https://www.kernel.org/doc/html/latest/hid/hidraw.html)
