@@ -52,3 +52,5 @@ Create device using libcomposite:
   * [Turn Your Raspberry Pi Zero into a USB Keyboard (HID)](https://randomnerdtutorials.com/raspberry-pi-zero-usb-keyboard-hid/) — uses libcomposite for quick device configuration
   * [pid.codes is a registry of USB PID codes for open source hardware projects](https://pid.codes/)
   * [HIDRAW - Raw Access to USB and Bluetooth Human Interface Devices](https://www.kernel.org/doc/html/latest/hid/hidraw.html)
+  * [Device Class Definition for Human Interface Devices (HID)](https://www.usb.org/sites/default/files/hid1_11.pdf)
+  * [HID Usage Tables](https://usb.org/sites/default/files/hut1_2.pdf)
