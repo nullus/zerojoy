@@ -1,8 +1,7 @@
-from abc import abstractmethod, ABC
 from datetime import datetime
 from itertools import zip_longest
 from logging import getLogger, basicConfig, INFO
-from typing import List, Optional, TypeVar, Tuple
+from typing import List, Optional
 
 
 def pretty_print_hex(bytearray_):
@@ -109,6 +108,7 @@ def log_hidraw_reports():
         for report in reports:
             log_file.write(str(report))
             log_file.write("\n")
+
 
 if __name__ == '__main__':
     log = getLogger(__name__)
