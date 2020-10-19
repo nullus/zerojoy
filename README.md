@@ -41,11 +41,21 @@ Create device using libcomposite:
 
 ### To do/Next steps
 
+  * Package code 📦
+  * Add tests ✅
+  * Define usb_gadget configuration in code
+    * HID report descriptor library
+  * Programmatic deployment (e.g. Ansible via SSH, or bootstrap from git)
+  * Overlayfs for read-only filesystem (i.e device hardening)
   * Build a controller for old PC 15-pin joystick, throttle, and rudder devices (e.g. CH Products)
     * ADC for Raspberry Pi Zero: [RasPiO Analog Zero](https://raspberry.piaustralia.com.au/collections/shields-and-add-ons/products/raspio-analog-zero)
     * Old CH Products: [eBay search](https://www.ebay.com.au/sch/i.html?_nkw=CH+Products&_sacat=1249)
   * Integrate Wacom Intuos Pro via Bluetooth (via HIDRAW)
-
+    * Reverse engineer HID report
+    * Design transparency for control areas
+    * Create mapping for touch (up to 2?) to joystick
+  * Build custom controller? 🤪
+  
 ### References
 
   * [Setup for OTG Serial Gadget](https://raspberrypi.stackexchange.com/a/75551)
