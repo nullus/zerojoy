@@ -41,7 +41,6 @@ Create device using libcomposite:
 
 ### To do/Next steps
 
-  * Add tests ✅
   * Define usb_gadget configuration in code
     * HID report descriptor library
   * Programmatic deployment (e.g. Ansible via SSH, or bootstrap from git)
