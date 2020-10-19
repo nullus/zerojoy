@@ -1,7 +1,10 @@
 from datetime import datetime
-from itertools import zip_longest
+from functools import reduce
+from itertools import zip_longest, chain
 from logging import getLogger, basicConfig, INFO
 from typing import List, Optional
+
+from zerojoy.collections import Empty
 
 
 def pretty_print_hex(bytearray_):
@@ -72,19 +75,6 @@ class HidReport:
         ])
 
 
-# T = TypeVar("T")
-#
-#
-# class RangeSet(ABC):
-#     @abstractmethod
-#     def __contains__(self, item: T) -> bool:
-#         pass
-#
-#     @abstractmethod
-#     def insert(self, item: T) -> 'RangeSet':
-#         pass
-
-
 def log_hidraw_reports():
     """
     Read reports input/feature from HIDRAW device and output to console
@@ -102,7 +92,9 @@ def log_hidraw_reports():
         except KeyboardInterrupt:
             log.info("keyboard interrupt, exiting")
 
-    # reports_diff = [reports[i].differing_bytes_indexes(reports[i + 1]) for i in range(0, len(reports) - 1)]
+    reports_diff = [reports[i].differing_bytes_indexes(reports[i + 1]) for i in range(0, len(reports) - 1)]
+
+    report_ranges = reduce(lambda x, y: x.insert(y), chain(*reports_diff), Empty())
 
     with open("hidraw.log", "w") as log_file:
         for report in reports:
