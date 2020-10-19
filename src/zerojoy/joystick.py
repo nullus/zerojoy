@@ -5,7 +5,7 @@ from logging import getLogger, basicConfig, INFO
 from operator import or_
 from struct import Struct
 
-from hid import HidDevice, hid
+from zerojoy.hid import HidDevice, hid
 
 
 class HidJoystick(HidDevice):

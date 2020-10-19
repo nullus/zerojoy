@@ -41,7 +41,6 @@ Create device using libcomposite:
 
 ### To do/Next steps
 
-  * Package code 📦
   * Add tests ✅
   * Define usb_gadget configuration in code
     * HID report descriptor library
