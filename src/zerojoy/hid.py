@@ -2,7 +2,7 @@ from abc import ABCMeta, abstractmethod
 from contextlib import contextmanager
 
 
-class HidDevice(object, metaclass=ABCMeta):
+class HidDevice(metaclass=ABCMeta):
     def __init__(self, device) -> None:
         super().__init__()
         self.device = device
