@@ -56,6 +56,7 @@ class Empty(RangeSet):
 
 
 class Span(RangeSet):
+
     def __init__(self, left: RangeSet, right: RangeSet) -> None:
         super().__init__()
         self._left = left
@@ -85,7 +86,13 @@ class Span(RangeSet):
         return (self._left._range.stop + self._right._range.start) // 2
 
     def ranges(self) -> List[Tuple[int, int]]:
-        return self._left.ranges() + self._right.ranges()
+        left = self._left.ranges()
+        right = self._right.ranges()
+        if left[-1][1] >= right[0][0]:
+            # If the mid tuple overlaps, merge it
+            return left[:-1] + [(left[-1][0], right[0][1])] + right[1:]
+        else:
+            return left + right
 
     def _depth(self) -> int:
         return max(self._left._depth(), self._right._depth()) + 1
@@ -126,7 +133,7 @@ class Node(RangeSet):
     def __contains__(self, item: int) -> bool:
         return item in self._range
 
-    def insert(self, item: int) -> 'RangeSet':
+    def insert(self, item: int) -> RangeSet:
         if item in self:
             return self
         elif item == self._from - 1:

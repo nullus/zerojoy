@@ -68,3 +68,8 @@ def test_range_set_node_zero_depth():
 def test_range_set_span_depth_of_tallest_branch():
     range_set = Span(Node(1, 2), Span(Node(2, 3), Span(Node(3, 4), Node(4, 5))))
     assert 4 == range_set._depth()
+
+
+def test_range_set_ranges_should_merge_adjacent_ranges():
+    range_set = Span(Node(0, 5), Span(Node(5, 10), Node(10, 20)))
+    assert [(0, 20)] == range_set.ranges()
