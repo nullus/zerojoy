@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zerojoy"
-version = "0.2.2"
+version = "0.3.0"
 description = "Raspberry Pi Zero based HID joystick controller"
 authors = ["Dylan Perry <dylan.perry@gmail.com>"]
 license = "BSD-2-Clause"

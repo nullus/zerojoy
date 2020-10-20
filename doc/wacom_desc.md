@@ -65,6 +65,8 @@ Touch record:
 
  * 0x00: Touch ID (1, 2, 3, 4, 6, ...) (Not sure where 5 went)
  * 0x01: Touch on/off?
- * 0x02 - 0x07: ??? 
+ * 0x02 - 0x07: (e.g b0 1a a1 0d 02 03) 10110000 00011010 10100001 00001101 00000010 00000011  
 
 From examining drivers/documentation x, y coordinates may have 12-bit precision split over two bytes. Some bits may record a capacitance value, which could be fun.
+
+Touch area is 224mm x 148mm
