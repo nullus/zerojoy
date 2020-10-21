@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zerojoy"
-version = "0.4.0"
+version = "0.5.0"
 description = "Raspberry Pi Zero based HID joystick controller"
 authors = ["Dylan Perry <dylan.perry@gmail.com>"]
 license = "BSD-2-Clause"
@@ -14,7 +14,6 @@ pytest = "^6.1.1"
 
 [tool.poetry.scripts]
 wacom-read-report = "zerojoy.wacom_read_report:main"
-joystick = "zerojoy.joystick:main"
 hidraw-read-report-desc = "zerojoy.hidraw_read_report_desc:main"
 hotaw = "zerojoy.hotaw:main"
 

@@ -1,10 +1,12 @@
+from functools import reduce
 from logging import getLogger
+from operator import or_
 from struct import Struct
 from typing import List, Iterable, Tuple, Any
 
 from zerojoy.wacom.model import TouchRecord, Touch
-from zerojoy.hid import HidReport, HidDecoder
-from zerojoy.wacom.port import TouchMapper
+from zerojoy.hid import HidReport, HidDecoder, HidDevice
+from zerojoy.wacom.port import TouchMapper, Axes, Button, Axis
 
 
 class WacomTouchDecoder(HidDecoder):
@@ -55,3 +57,40 @@ class WacomTouchDecoder(HidDecoder):
             Touch(record[i], record[i + 1] != 0, record[i + 2], record[i + 3], record[i + 4], record[i + 5])
             for i in range(0, self.TOUCH_ITEM_ELEMENTS_COUNT * touch_item_count, self.TOUCH_ITEM_ELEMENTS_COUNT)
         ]
+
+
+class JoystickEncoder:
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.x = 128
+        self.y = 128
+        self.rz = 128
+        self.slider = 128
+        self.button = [0, 0, 0, 0]
+        self.struct = Struct("B" * 7)
+        self.device = open("/dev/hidg0", "rb+", buffering=0)
+
+    def __del__(self):
+        self.device.close()
+
+    def send_report(self):
+        self.device.write(self.encode())
+
+    def submit(self, outputs):
+        for output in outputs:
+            if isinstance(output, Axes) and output.id == 0:
+                self.x = output.x
+                self.y = output.y
+            elif isinstance(output, Button) and output.id in [1, 2, 3, 4]:
+                self.button[output.id - 1] = 1 if output.pressed else 0
+            elif isinstance(output, Axis) and output.id == 5:
+                self.rz = output.u
+            elif isinstance(output, Axis) and output.id == 6:
+                self.slider = output.u
+        self.send_report()
+
+    def encode(self):
+        return self.struct.pack(
+            reduce(or_, (b << p for p, b in enumerate(self.button))), 0, 0,
+            self.x, self.y, self.rz, self.slider)

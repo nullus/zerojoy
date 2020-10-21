@@ -70,3 +70,9 @@ Touch record:
 From examining drivers/documentation x, y coordinates may have 12-bit precision split over two bytes. Some bits may record a capacitance value, which could be fun.
 
 Touch area is 224mm x 148mm
+
+Touch values reported:
+
+    INFO:zerojoy.hotaw:bounds: Region(x1=1, y1=1, x2=8959, y2=5919)
+
+Corresponds to ~40/mm (39.99)

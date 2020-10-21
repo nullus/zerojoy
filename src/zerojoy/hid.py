@@ -86,7 +86,7 @@ def capture_hidraw_input(hidraw_decoders: List[HidDecoder], device_file: str = "
         try:
             while True:
                 report = HidReport(bytearray(device.read(4096)), True)
-                log.info("received report: %s", repr(report))
+                log.debug("received report: %s", repr(report))
                 for decoder in hidraw_decoders:
                     decoder.process(report)
         except KeyboardInterrupt:
