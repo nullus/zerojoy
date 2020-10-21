@@ -3,12 +3,14 @@ from typing import NamedTuple, List
 
 class Touch(NamedTuple):
     id: int
-    down: bool
+    pressed: bool
     x: int
     y: int
-    capacitance: int
+    capacitance_x: int
+    capacitance_y: int
 
 
 class TouchRecord(NamedTuple):
     touches: List[Touch]
-    sequence: int
+    event_time: int
+    event_time_id: int

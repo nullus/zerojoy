@@ -70,9 +70,9 @@ class Span(RangeSet):
 
     def insert(self, item: int) -> 'RangeSet':
         if item < self._mid:
-            return Span(self._left.insert(item), self._right).__rebalance()
+            return Span(self._left.insert(item), self._right).__balance()
         else:
-            return Span(self._left, self._right.insert(item)).__rebalance()
+            return Span(self._left, self._right.insert(item)).__balance()
 
     def is_empty(self) -> bool:
         return False
@@ -114,7 +114,7 @@ class Span(RangeSet):
             # No rotation is possible
             return self
 
-    def __rebalance(self) -> RangeSet:
+    def __balance(self) -> RangeSet:
         if self._left._depth() > self._right._depth() * 2:
             return self.__right_rotate()
         elif self._right._depth() > self._left._depth() * 2:
