@@ -26,6 +26,26 @@ def hid(device_name, cls):
         yield cls(device)
 
 
+def print_hid_report_desc(filename: str):
+
+    def read_hid_report_desc(f):
+        while True:
+            item = f.read(1)
+            if not item:
+                break
+            width = [0, 1, 2, 4][item[0] & 0x3]
+            yield (item + f.read(width)).hex(' ')
+
+    with open(filename, 'rb') as report_desc:
+        print(repr(list(read_hid_report_desc(report_desc))))
+
+
+def write_hid_report_desc(filename: str, hid_report_desc: List[str]):
+
+    with open(filename, 'wb') as report_desc:
+        report_desc.write(b''.join(bytes.fromhex(i) for i in hid_report_desc))
+
+
 class HidReport:
 
     def __init__(self, report_data: bytearray, use_report_id: bool = False) -> None:

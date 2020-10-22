@@ -1,5 +1,5 @@
 from logging import getLogger
-from typing import Tuple, NamedTuple, List
+from typing import Tuple, NamedTuple, List, Optional
 
 from zerojoy.wacom.model import TouchRecord, Touch
 
@@ -75,9 +75,9 @@ class Axis(NamedTuple):
     u: int
 
 
-class Slider(NamedTuple):
+class Hat(NamedTuple):
     id: int
-    v: int
+    r: int
 
 
 class TouchRegionButton:
@@ -160,7 +160,7 @@ class TouchRegionSliderY:
         self.min = min_
         self.max = max_
         self.region = region
-        self._last_value = Slider(self.id, self.min)
+        self._last_value = Axis(self.id, self.min)
 
     @staticmethod
     def normalise(x: int, from0: int, from1: int, to0: int, to1: int) -> int:
@@ -179,6 +179,31 @@ class TouchRegionSliderY:
         return self._last_value
 
 
+class TouchRegionHat(object):
+    def __init__(self, region: Region, id_: int) -> None:
+        super().__init__()
+        self.id = id_
+        self.region = region
+
+    @staticmethod
+    def normalise(x: int, from0: int, from1: int, to0: int, to1: int) -> int:
+        """
+        Normalise x from range from0 - from1 to to0 - to1 avoiding loss of precision. Clamp initial value
+        """
+
+        return (max(min(x, max(from0, from1)), min(from0, from1)) - from0) * (to1 - to0) // (from1 - from0) + to0
+
+    def map(self, touches: List[Touch]) -> Hat:
+        touch = next((t for t in touches if (t.x, t.y) in self.region and t.pressed), None)
+        if touch:
+            # Find first matching touch in region, or matching continuously seen ID
+            address = self.normalise(touch.y, self.region.y1, self.region.y2 - 1, 0, 3) * 3 + self.normalise(touch.x, self.region.x1, self.region.x2 - 1, 0, 3)
+            return Hat(self.id, [8, 1, 2, 7, 0, 3, 6, 5, 4, 0, 0, 0, 0][address])
+
+        else:
+            return Hat(self.id, 0)
+
+
 class TouchMapper:
     def __init__(self, handlers) -> None:
         super().__init__()
@@ -191,6 +216,7 @@ class TouchMapper:
             TouchRegionButton(grid_region(3, 4, 1, 1), 4),
             TouchRegionAxisX(grid_region(0, 5, 4, 1), 5, 0, 255),
             TouchRegionSliderY(grid_region(4, 0, 2, 6), 6, 0, 255),
+            TouchRegionHat(grid_region(6, 0, 2, 2), 7),
         ]
         self._handlers = handlers
 

@@ -6,7 +6,7 @@ from typing import List, Iterable, Tuple, Any
 
 from zerojoy.wacom.model import TouchRecord, Touch
 from zerojoy.hid import HidReport, HidDecoder, HidDevice
-from zerojoy.wacom.port import TouchMapper, Axes, Button, Axis
+from zerojoy.wacom.port import TouchMapper, Axes, Button, Axis, Hat
 
 
 class WacomTouchDecoder(HidDecoder):
@@ -68,7 +68,8 @@ class JoystickEncoder:
         self.rz = 128
         self.slider = 128
         self.button = [0, 0, 0, 0]
-        self.struct = Struct("B" * 7)
+        self.hat = 0
+        self.struct = Struct("B" * 8)
         self.device = open("/dev/hidg0", "rb+", buffering=0)
 
     def __del__(self):
@@ -88,9 +89,11 @@ class JoystickEncoder:
                 self.rz = output.u
             elif isinstance(output, Axis) and output.id == 6:
                 self.slider = output.u
+            elif isinstance(output, Hat) and output.id == 7:
+                self.hat = output.r
         self.send_report()
 
     def encode(self):
         return self.struct.pack(
             reduce(or_, (b << p for p, b in enumerate(self.button))), 0, 0,
-            self.x, self.y, self.rz, self.slider)
+            self.x, self.y, self.rz, self.slider, self.hat)

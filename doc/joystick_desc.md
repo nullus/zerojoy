@@ -53,3 +53,23 @@ Ignoring above, and instead using the HID report descriptor lifted from my budge
     0x95 0x04           Report Count (4)
     0x81 0x02           Input (Data, Variable, Absolute)
     0xc0
+    
+Attempt adding hat switch description, lifted from [XBox 360 controller](https://github.com/ViGEm/ViGEmBus/issues/40):
+
+    09 39          (LOCAL)  USAGE              0x00010039 Hat switch (Dynamic Value)  
+    15 01          (GLOBAL) LOGICAL_MINIMUM    0x01 (1)  
+    25 08          (GLOBAL) LOGICAL_MAXIMUM    0x08 (8)  
+    35 00          (GLOBAL) PHYSICAL_MINIMUM   0x00 (0)  <-- Info: Consider replacing 35 00 with 34
+    46 3B01        (GLOBAL) PHYSICAL_MAXIMUM   0x013B (315)  
+    66 1400        (GLOBAL) UNIT               0x0014 Rotation in degrees [1° units] (4=System=English Rotation, 1=Rotation=Degrees)  <-- Info: Consider replacing 66 1400 with 65 14
+    75 04          (GLOBAL) REPORT_SIZE        0x04 (4) Number of bits per field  
+    95 01          (GLOBAL) REPORT_COUNT       0x01 (1) Number of fields <-- Redundant: REPORT_COUNT is already 1 
+    81 42          (MAIN)   INPUT              0x00000042 (1 field x 4 bits) 0=Data 1=Variable 0=Absolute 0=NoWrap 0=Linear 0=PrefState 1=Null 0=NonVolatile 0=Bitmap 
+    75 04          (GLOBAL) REPORT_SIZE        0x04 (4) Number of bits per field <-- Redundant: REPORT_SIZE is already 4 
+    95 01          (GLOBAL) REPORT_COUNT       0x01 (1) Number of fields <-- Redundant: REPORT_COUNT is already 1 
+    15 00          (GLOBAL) LOGICAL_MINIMUM    0x00 (0)  <-- Info: Consider replacing 15 00 with 14
+    25 00          (GLOBAL) LOGICAL_MAXIMUM    0x00 (0)  <-- Info: Consider replacing 25 00 with 24
+    35 00          (GLOBAL) PHYSICAL_MINIMUM   0x00 (0) <-- Redundant: PHYSICAL_MINIMUM is already 0 <-- Info: Consider replacing 35 00 with 34
+    45 00          (GLOBAL) PHYSICAL_MAXIMUM   0x00 (0)  <-- Info: Consider replacing 45 00 with 44
+    65 00          (GLOBAL) UNIT               0x00 No unit (0=None)  <-- Info: Consider replacing 65 00 with 64
+    81 03          (MAIN)   INPUT              0x00000003 (1 field x 4 bits) 1=Constant 1=Variable 0=Absolute 0=NoWrap 0=Linear 0=PrefState 0=NoNull 0=NonVolatile 0=Bitmap
