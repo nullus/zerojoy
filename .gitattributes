@@ -1,0 +1,2 @@
+# Treat usb_gadget as binary so it can be deployed from Windows
+usb_gadget/** binary

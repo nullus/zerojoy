@@ -49,9 +49,8 @@ Create device using libcomposite:
     * ADC for Raspberry Pi Zero: [RasPiO Analog Zero](https://raspberry.piaustralia.com.au/collections/shields-and-add-ons/products/raspio-analog-zero)
     * Old CH Products: [eBay search](https://www.ebay.com.au/sch/i.html?_nkw=CH+Products&_sacat=1249)
   * Integrate Wacom Intuos Pro via Bluetooth (via HIDRAW)
-    * Reverse engineer HID report
-    * Design transparency for control areas
-    * Create mapping for touch (up to 2?) to joystick
+    * Add additional controls to Joystick HID report
+    * Design ~~transparency~~ layout for control area--first iteration with paper
   * Build custom controller? 🤪
   
 ### References
