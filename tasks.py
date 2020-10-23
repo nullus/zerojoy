@@ -1,5 +1,3 @@
-from io import StringIO
-
 from fabric import Connection
 from invoke.tasks import task
 
