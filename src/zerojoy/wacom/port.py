@@ -42,8 +42,8 @@ def grid_region(left: int, top: int, width: int, height: int) -> Region:
     button_spacing = 4
 
     # Margin to centre button layout
-    margin_x = 240
-    margin_y = 320
+    margin_x = 160
+    margin_y = 240
 
     def dimension_to_points(n: int) -> int:
         return (n * button_size + (n - 1) * button_spacing) * wacom_resolution - 1
