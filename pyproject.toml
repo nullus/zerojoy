@@ -17,7 +17,7 @@ fabric = "^2.5.0"
 [tool.poetry.scripts]
 wacom-read-report = "zerojoy.wacom_read_report:main"
 hidraw-read-report-desc = "zerojoy.hidraw_read_report_desc:main"
-hotaw = "zerojoy.hotaw:main"
+howas = "zerojoy.howas:main"
 
 [build-system]
 requires = ["poetry-core>=1.0.0a5"]

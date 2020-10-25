@@ -2,7 +2,7 @@ from fabric import Connection
 from invoke.tasks import task
 
 from zerojoy.hid import write_hid_report_desc
-from zerojoy.hotaw import hid_report_desc
+from zerojoy.howas import hid_report_desc
 
 
 @task
