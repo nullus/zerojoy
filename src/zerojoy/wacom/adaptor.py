@@ -67,7 +67,7 @@ class JoystickEncoder:
         self.y = 128
         self.rz = 128
         self.slider = 128
-        self.button = [0, 0, 0, 0]
+        self.button = [0] * 24
         self.hat = 0
         self.struct = Struct("B" * 8)
         self.device = open("/dev/hidg0", "rb+", buffering=0)
@@ -80,20 +80,18 @@ class JoystickEncoder:
 
     def submit(self, outputs):
         for output in outputs:
-            if isinstance(output, Axes) and output.id == 0:
-                self.x = output.x
-                self.y = output.y
-            elif isinstance(output, Button) and output.id in [1, 2, 3, 4]:
+            if isinstance(output, Button) and output.id in range(1, 25):
                 self.button[output.id - 1] = 1 if output.pressed else 0
-            elif isinstance(output, Axis) and output.id == 5:
+            elif isinstance(output, Axis) and output.id == 25:
                 self.rz = output.u
-            elif isinstance(output, Axis) and output.id == 6:
+            elif isinstance(output, Axis) and output.id == 26:
                 self.slider = output.u
-            elif isinstance(output, Hat) and output.id == 7:
+            elif isinstance(output, Hat) and output.id == 27:
                 self.hat = output.r
         self.send_report()
 
     def encode(self):
+        buttons = reduce(or_, (b << p for p, b in enumerate(self.button)))
         return self.struct.pack(
-            reduce(or_, (b << p for p, b in enumerate(self.button))), 0, 0,
+            buttons & 0xff, (buttons >> 8) & 0xff, (buttons >> 16) & 0xff,
             self.x, self.y, self.rz, self.slider, self.hat)

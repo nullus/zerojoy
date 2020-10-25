@@ -80,7 +80,11 @@ class Hat(NamedTuple):
     r: int
 
 
-class TouchRegionButton:
+class TouchRegionControl:
+    pass
+
+
+class TouchRegionButton(TouchRegionControl):
     def __init__(self, region: Region, id_: int) -> None:
         super().__init__()
         self.region = region
@@ -90,7 +94,7 @@ class TouchRegionButton:
         return Button(self.id, any((t.x, t.y) in self.region for t in touches if t.pressed))
 
 
-class TouchRegionAxes:
+class TouchRegionAxes(TouchRegionControl):
     def __init__(self, region: Region, id_: int, min_: int, max_: int) -> None:
         super().__init__()
         self._last_touch_id = None
@@ -122,7 +126,7 @@ class TouchRegionAxes:
             return Axes(self.id, self.center, self.center)
 
 
-class TouchRegionAxisX:
+class TouchRegionAxisX(TouchRegionControl):
     def __init__(self, region: Region, id_: int, min_: int, max_: int) -> None:
         super().__init__()
         self._last_touch_id = None
@@ -153,7 +157,7 @@ class TouchRegionAxisX:
             return Axis(self.id, self.center)
 
 
-class TouchRegionSliderY:
+class TouchRegionSliderY(TouchRegionControl):
     def __init__(self, region: Region, id_: int, min_: int, max_: int) -> None:
         super().__init__()
         self.id = id_
@@ -179,7 +183,7 @@ class TouchRegionSliderY:
         return self._last_value
 
 
-class TouchRegionHat(object):
+class TouchRegionHat(TouchRegionControl):
     def __init__(self, region: Region, id_: int) -> None:
         super().__init__()
         self.id = id_
@@ -208,15 +212,18 @@ class TouchMapper:
     def __init__(self, handlers) -> None:
         super().__init__()
         self.log = getLogger(__name__)
-        self.mappings = [
-            TouchRegionAxes(grid_region(0, 0, 4, 4), 0, 0, 255),
-            TouchRegionButton(grid_region(0, 4, 1, 1), 1),
-            TouchRegionButton(grid_region(1, 4, 1, 1), 2),
-            TouchRegionButton(grid_region(2, 4, 1, 1), 3),
-            TouchRegionButton(grid_region(3, 4, 1, 1), 4),
-            TouchRegionAxisX(grid_region(0, 5, 4, 1), 5, 0, 255),
-            TouchRegionSliderY(grid_region(4, 0, 2, 6), 6, 0, 255),
-            TouchRegionHat(grid_region(6, 0, 2, 2), 7),
+
+        def much_button(left: int, top: int, width: int, height: int, start_numbering: int) -> List[TouchRegionControl]:
+            return [
+                TouchRegionButton(grid_region(left + x, top + y, 1, 1), start_numbering + (y * width + x))
+                for x in range(0, width)
+                for y in range(0, height)
+            ]
+
+        self.mappings: List[TouchRegionControl] = much_button(1, 3, 4, 3, 1) + much_button(6, 4, 2, 2, 13) + [
+            TouchRegionAxisX(grid_region(0, 6, 11, 1), 25, 0, 255),
+            TouchRegionSliderY(grid_region(5, 0, 1, 6), 26, 0, 255),
+            TouchRegionHat(grid_region(8, 4, 2, 2), 27),
         ]
         self._handlers = handlers
 
