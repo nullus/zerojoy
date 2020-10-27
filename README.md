@@ -48,9 +48,6 @@ Create device using libcomposite:
   * Build a controller for old PC 15-pin joystick, throttle, and rudder devices (e.g. CH Products)
     * ADC for Raspberry Pi Zero: [RasPiO Analog Zero](https://raspberry.piaustralia.com.au/collections/shields-and-add-ons/products/raspio-analog-zero)
     * Old CH Products: [eBay search](https://www.ebay.com.au/sch/i.html?_nkw=CH+Products&_sacat=1249)
-  * Integrate Wacom Intuos Pro via Bluetooth (via HIDRAW)
-    * Add additional controls to Joystick HID report
-    * Design ~~transparency~~ layout for control area--first iteration with paper
   * Build custom controller? 🤪
   
 ### References
