@@ -42,6 +42,7 @@ HID_MAX_DESCRIPTOR_SIZE = 4096
 # From /usr/include/linux/hidraw.h
 HIDIOCGRDESCSIZE = _IOC(False, 'H', 0x01, _C_INT_SIZE)
 HIDIOCGRDESC = _IOC(False, 'H', 0x02, _C_INT_SIZE + HID_MAX_DESCRIPTOR_SIZE)
+def HIDIOCGRAWNAME(length: int) -> int: return _IOC(False, 'H', 0x04, length)
 
 
 def main():
@@ -50,6 +51,9 @@ def main():
     """
 
     with open("/dev/hidraw0", "rb+") as device:
+        name_array = bytearray(256)
+        ioctl(device.fileno(), HIDIOCGRAWNAME(len(name_array)), name_array)
+        print(name_array.split(b'\x00', 1)[0].decode())
         size_array = bytearray(4)
         ioctl(device.fileno(), HIDIOCGRDESCSIZE, size_array)
         size = unpack("I", size_array)[0]

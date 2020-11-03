@@ -43,12 +43,19 @@ Create device using libcomposite:
 
   * Define usb_gadget configuration in code
     * HID report descriptor library
+    * Handle device lifecycle in the application (create/disable)
+  * Make HIDRAW a dedicated adapter type??
+    * Don't fail trying to open /dev/hidraw0, periodically re-try opening/initialising
+    * Check name of devices (ioctl in hidraw_read_report_desc.py)
+    * Basic parsing of data using HID report desc/Overriding HID report desc based on VID/PID?
+  * Build some bluetooth control into the app? At least enough to attempt pairing/reconnecting
   * Programmatic deployment (e.g. Ansible via SSH, or bootstrap from git)
   * Overlayfs for read-only filesystem (i.e device hardening)
   * Build a controller for old PC 15-pin joystick, throttle, and rudder devices (e.g. CH Products)
     * ADC for Raspberry Pi Zero: [RasPiO Analog Zero](https://raspberry.piaustralia.com.au/collections/shields-and-add-ons/products/raspio-analog-zero)
     * Old CH Products: [eBay search](https://www.ebay.com.au/sch/i.html?_nkw=CH+Products&_sacat=1249)
   * Build custom controller? 🤪
+  * Turn iPad into custom controller. Looks possible [Apple docs](https://developer.apple.com/documentation/corebluetooth/cbperipheralmanager)
   
 ### References
 
